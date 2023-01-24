@@ -30,6 +30,50 @@ public class COTSFalconSwerveConstants {
         this.canCoderInvert = canCoderInvert;
     }
     
+    /** WESTCOAST PRODUCT - Swerve X inverted NEO/CIM/775 steered */
+    public static COTSFalconSwerveConstants SwerveXiN(double driveGearRatio){
+        double wheelDiameter = Units.inchesToMeters(4.0);
+ 
+        double g1 = 8; // pinon on motor 9T on Falcon, 8T on NEO/CIM/775
+        double g2 = 32;
+        double g3 = 24;
+        double g4 = 14;
+        double g5 = 72;
+        double angleGearRatio = (g2 / g1) * (g3 / g2) * (g4 / g3) * (g5 / g4);
+ 
+        double angleKP = 0.3;
+        double angleKI = 0.0;  // Always leave I at 0
+        double angleKD = 0.0;
+        double angleKF = 0.0;
+ 
+        boolean driveMotorInvert = false;
+        boolean angleMotorInvert = true;
+        boolean canCoderInvert = false;
+        return new COTSFalconSwerveConstants(wheelDiameter, angleGearRatio, driveGearRatio, angleKP, angleKI, angleKD, angleKF, driveMotorInvert, angleMotorInvert, canCoderInvert);
+    }
+
+    /** WESTCOAST PRODUCT - Swerve X inverted Falcon steered */
+    public static COTSFalconSwerveConstants SwerveXiF(double driveGearRatio){
+        double wheelDiameter = Units.inchesToMeters(4.0);
+ 
+        double g1 = 9; // pinon on motor 9T on Falcon, 8T on CIM/NEO/775
+        double g2 = 32;
+        double g3 = 24;
+        double g4 = 14;
+        double g5 = 72;
+        double angleGearRatio = (g2 / g1) * (g3 / g2) * (g4 / g3) * (g5 / g4);
+ 
+        double angleKP = 0.3;
+        double angleKI = 0.0;
+        double angleKD = 0.0;
+        double angleKF = 0.0;
+ 
+        boolean driveMotorInvert = false;
+        boolean angleMotorInvert = true;
+        boolean canCoderInvert = false;
+        return new COTSFalconSwerveConstants(wheelDiameter, angleGearRatio, driveGearRatio, angleKP, angleKI, angleKD, angleKF, driveMotorInvert, angleMotorInvert, canCoderInvert);
+    }
+    
     /** Swerve Drive Specialties - MK3 Module*/
     public static COTSFalconSwerveConstants SDSMK3(double driveGearRatio){
         double wheelDiameter = Units.inchesToMeters(4.0);
@@ -86,6 +130,20 @@ public class COTSFalconSwerveConstants {
 
     /* Drive Gear Ratios for all supported modules */
     public class driveGearRatios{
+        /* SwerveX */
+        /** SwerveX Belt - 5.5 : 1 */
+        public static final double SWERVEX_P1 = (5.50 / 1.0);
+        /** SwerveX Belt - 6.55 : 1 */
+        public static final double SWERVEX_P2 = (6.55 / 1.0);
+        /** SwerveX Belt - 7.8 : 1 */
+        public static final double SWERVEX_P3 = (7.80 / 1.0);
+        /** SwerveX Gear - 6.75 : 1 */
+        public static final double SWERVEX_G1 = (6.75 / 1.0);
+        /** SwerveX Gear - 7.36 : 1 */
+        public static final double SWERVEX_G2 = (7.36 / 1.0);
+        /** SwerveX Gear - 8.10 : 1 */
+        public static final double SWERVEX_G3 = (8.10 / 1.0);
+
         /* SDS MK3 */
         /** SDS MK3 - 8.16 : 1 */
         public static final double SDSMK3_Standard = (8.16 / 1.0);

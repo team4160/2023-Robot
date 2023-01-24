@@ -11,35 +11,36 @@ import frc.lib.util.SwerveModuleConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class SwerveModule {
     public int moduleNumber;
     private Rotation2d angleOffset;
     private Rotation2d lastAngle;
 
-    private TalonFX mAngleMotor;
+    private TalonSRX mAngleMotor;
     private TalonFX mDriveMotor;
-    private CANCoder angleEncoder;
+    // private CANCoder angleEncoder;
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
         this.moduleNumber = moduleNumber;
         this.angleOffset = moduleConstants.angleOffset;
-        
-        /* Angle Encoder Config */
-        angleEncoder = new CANCoder(moduleConstants.cancoderID);
-        configAngleEncoder();
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+        mAngleMotor = new TalonSRX(moduleConstants.angleMotorID);
         configAngleMotor();
 
         /* Drive Motor Config */
         mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
         configDriveMotor();
+
+        /* Angle Encoder Config */
+        // angleEncoder = new CANCoder(moduleConstants.cancoderID);
+        configAngleEncoder();
 
         lastAngle = getState().angle;
     }
@@ -74,7 +75,8 @@ public class SwerveModule {
     }
 
     public Rotation2d getCanCoder(){
-        return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
+        // return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
+        return Rotation2d.fromDegrees(mAngleMotor.getSelectedSensorPosition());
     }
 
     public void resetToAbsolute(){
@@ -83,8 +85,14 @@ public class SwerveModule {
     }
 
     private void configAngleEncoder(){        
-        angleEncoder.configFactoryDefault();
-        angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
+        // angleEncoder.configFactoryDefault();
+        // angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
+        // swerveCanCoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+        // swerveCanCoderConfig.sensorDirection = Constants.Swerve.canCoderInvert;
+        // swerveCanCoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+        // swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
+        mAngleMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+        mAngleMotor.setSensorPhase(Constants.Swerve.canCoderInvert);
     }
 
     private void configAngleMotor(){
