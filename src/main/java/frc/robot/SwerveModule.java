@@ -75,7 +75,6 @@ public class SwerveModule {
     }
 
     public Rotation2d getCanCoder(){
-        // return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
         return Rotation2d.fromDegrees(mAngleMotor.getSelectedSensorPosition());
     }
 
@@ -84,14 +83,9 @@ public class SwerveModule {
         mAngleMotor.setSelectedSensorPosition(absolutePosition);
     }
 
-    private void configAngleEncoder(){        
-        // angleEncoder.configFactoryDefault();
-        // angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
-        // swerveCanCoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
-        // swerveCanCoderConfig.sensorDirection = Constants.Swerve.canCoderInvert;
-        // swerveCanCoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-        // swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
+    private void configAngleEncoder(){
         mAngleMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+        mAngleMotor.configFeedbackNotContinuous(true, 10);
         mAngleMotor.setSensorPhase(Constants.Swerve.canCoderInvert);
     }
 
