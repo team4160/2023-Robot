@@ -34,20 +34,15 @@ public class COTSFalconSwerveConstants {
     public static COTSFalconSwerveConstants SwerveXiN(double driveGearRatio){
         double wheelDiameter = Units.inchesToMeters(4.0);
  
-        double g1 = 8; // pinon on motor 9T on Falcon, 8T on NEO/CIM/775
-        double g2 = 32;
-        double g3 = 24;
-        double g4 = 14;
-        double g5 = 72;
-        double angleGearRatio = (g2 / g1) * (g3 / g2) * (g4 / g3) * (g5 / g4);
+        double angleGearRatio = 11.14285714285714;
  
-        double angleKP = 0.3;
+        double angleKP = 0.1;
         double angleKI = 0.0;  // Always leave I at 0
         double angleKD = 0.0;
         double angleKF = 0.0;
  
         boolean driveMotorInvert = false;
-        boolean angleMotorInvert = true;
+        boolean angleMotorInvert = false;
         boolean canCoderInvert = false;
         return new COTSFalconSwerveConstants(wheelDiameter, angleGearRatio, driveGearRatio, angleKP, angleKI, angleKD, angleKF, driveMotorInvert, angleMotorInvert, canCoderInvert);
     }

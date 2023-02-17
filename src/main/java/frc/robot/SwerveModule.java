@@ -75,7 +75,7 @@ public class SwerveModule {
     }
 
     public Rotation2d getCanCoder(){
-        return Rotation2d.fromDegrees(mAngleMotor.getSelectedSensorPosition());
+        return Rotation2d.fromDegrees(mAngleMotor.getSelectedSensorPosition()/4096.0*360);
     }
 
     public void resetToAbsolute(){
