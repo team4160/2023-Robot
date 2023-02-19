@@ -4,11 +4,12 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.math.Conversions;
 import frc.lib.util.CTREModuleState;
 import frc.lib.util.SwerveModuleConstants;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
@@ -65,6 +66,7 @@ public class SwerveModule {
 
     private void setAngle(SwerveModuleState desiredState){
         Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 1%. Prevents Jittering.
+        SmartDashboard.putNumber("set //"+moduleNumber, angle.getDegrees());
         
         mAngleMotor.set(ControlMode.Position, Conversions.degreesToFalcon(angle.getDegrees(), Constants.Swerve.angleGearRatio));
         lastAngle = angle;
@@ -75,17 +77,21 @@ public class SwerveModule {
     }
 
     public Rotation2d getCanCoder(){
-        return Rotation2d.fromDegrees(mAngleMotor.getSelectedSensorPosition()/4096.0*360);
+        SmartDashboard.putNumber("raw sensor //"+moduleNumber, mAngleMotor.getSelectedSensorPosition());
+        return Rotation2d.fromDegrees(mAngleMotor.getSensorCollection().getPulseWidthPosition()/4096.0*360);
     }
 
     public void resetToAbsolute(){
         double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), Constants.Swerve.angleGearRatio);
-        mAngleMotor.setSelectedSensorPosition(absolutePosition);
+        SmartDashboard.putNumber("absolute angle set //"+moduleNumber, absolutePosition);
+        ErrorCode error = mAngleMotor.setSelectedSensorPosition(absolutePosition);
+        if (error.value != 0)
+            System.out.println("Can not set Position for sensor " + moduleNumber + " " + error.name());
     }
 
     private void configAngleEncoder(){
         mAngleMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
-        mAngleMotor.configFeedbackNotContinuous(true, 10);
+        mAngleMotor.configFeedbackNotContinuous(false, 10);
         mAngleMotor.setSensorPhase(Constants.Swerve.canCoderInvert);
     }
 
