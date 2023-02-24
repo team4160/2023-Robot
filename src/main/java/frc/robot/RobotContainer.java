@@ -59,6 +59,7 @@ public class RobotContainer {
                 operator.getY())
         );
 
+        /* 
         w_Wrist.setDefaultCommand(
             new PositionWrist(
                 w_Wrist, 
@@ -70,6 +71,7 @@ public class RobotContainer {
                 i_Intake, 
                 forthGuy.getY())
         );
+        */
         
         // Configure the button bindings
         configureButtonBindings();
