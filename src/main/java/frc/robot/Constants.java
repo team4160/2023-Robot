@@ -140,4 +140,15 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
+    public static final class MotorConstants{
+        public static final int shoulderMotor_1_id = 0;
+        public static final int shoulderMotor_2_id = 1;
+        
+        public static final int wristMotor_1_id = 2;
+        public static final int wristMotor_2_id = 3;
+
+        public static final int intakeMotor_1_id = 4;
+        public static final int intakeMotor_2_id = 5;
+    }
 }

@@ -20,6 +20,9 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick operator = new Joystick(1);
+    private final Joystick thirdGuy = new Joystick(2);
+    private final Joystick forthGuy = new Joystick(3);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -30,8 +33,12 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
+
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Shoulder s_Shoulder = new Shoulder();
+    private final Wrist w_Wrist = new Wrist();
+    private final Intake i_Intake = new Intake();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -46,6 +53,24 @@ public class RobotContainer {
             )
         );
 
+        s_Shoulder.setDefaultCommand(
+            new PositionArm(
+                s_Shoulder,
+                operator.getY())
+        );
+
+        w_Wrist.setDefaultCommand(
+            new PositionWrist(
+                w_Wrist, 
+                thirdGuy.getY())
+        );
+
+        i_Intake.setDefaultCommand(
+            new IntakeSpeed(
+                i_Intake, 
+                forthGuy.getY())
+        );
+        
         // Configure the button bindings
         configureButtonBindings();
     }
