@@ -26,6 +26,7 @@ public class Wrist extends SubsystemBase{
 
         wristMotor_1.setInverted(true);
         wristMotor_2.setInverted(InvertType.FollowMaster);
+
     }  
     
     public void manual(double percentOutput){

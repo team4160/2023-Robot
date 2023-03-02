@@ -19,10 +19,10 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
-    private final Joystick operator = new Joystick(1);
-    private final Joystick thirdGuy = new Joystick(2);
-    private final Joystick forthGuy = new Joystick(3);
+    private final XboxController driver = new XboxController(1);
+    private final XboxController operator = new XboxController(1);
+    //private final Joystick thirdGuy = new Joystick(2);
+    //private final Joystick forthGuy = new Joystick(3);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -42,7 +42,7 @@ public class RobotContainer {
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
+    public RobotContainer() { 
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -53,17 +53,20 @@ public class RobotContainer {
             )
         );
 
+        /* 
         s_Shoulder.setDefaultCommand(
             new PositionArm(
                 s_Shoulder,
-                operator.getY())
+                operator.getLeftY())
         );
-
-        /* 
+        */
+        
+        /*
+        
         w_Wrist.setDefaultCommand(
             new PositionWrist(
                 w_Wrist, 
-                thirdGuy.getY())
+                operator.getRightY())
         );
 
         i_Intake.setDefaultCommand(
@@ -72,7 +75,7 @@ public class RobotContainer {
                 forthGuy.getY())
         );
         */
-        
+
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -85,7 +88,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        //zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
     }
 
     /**
@@ -93,8 +96,11 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
+
+    /*
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return new exampleAuto(s_Swerve);
     }
+    */
 }

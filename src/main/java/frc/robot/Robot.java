@@ -5,8 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.Wrist;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -57,6 +60,8 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+
+  /*
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -66,6 +71,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
   }
+  */
 
   /** This function is called periodically during autonomous. */
   @Override
@@ -83,8 +89,15 @@ public class Robot extends TimedRobot {
   }
 
   /** This function is called periodically during operator control. */
+  Wrist w = new Wrist();
+  Shoulder s = new Shoulder();
+  XboxController x = new XboxController(1);
+
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //w.manual(x.getLeftY() * .25);
+    //s.manual(x.getRightY() * .25);
+  }
 
   @Override
   public void testInit() {
