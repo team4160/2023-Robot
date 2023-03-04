@@ -8,15 +8,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.SetIntake;
+import frc.robot.commands.SetSolenoid;
+import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.ToggleManual;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Wrist;
 
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
 
@@ -24,25 +24,40 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  public Wrist w_Wrist = new Wrist();
+  public Shoulder s_Shoulder = new Shoulder();
+  public Intake i_Intake = new Intake();
+
+  private XboxController operator = new XboxController(1);
+  //public XboxController driver = new XboxController(1);
+    
+  public JoystickButton toggle_wrist_manual = new JoystickButton(operator, XboxController.Button.kY.value); 
+  public JoystickButton toggle_shoulder_manual = new JoystickButton(operator, XboxController.Button.kB.value);
+  public JoystickButton toggle_intake_status = new JoystickButton(operator, XboxController.Button.kA.value); 
+  public JoystickButton toggle_intake_direction = new JoystickButton(operator, XboxController.Button.kX.value);
+  public JoystickButton fire_solenoid = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  public JoystickButton retract_solenoid = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+
+  private void configureButtonBindings() {
+    toggle_wrist_manual.onTrue(new ToggleManual(s_Shoulder, 0));
+    toggle_shoulder_manual.onTrue(new ToggleManual(s_Shoulder, 1));
+
+    toggle_intake_direction.onTrue(new ToggleIntake(i_Intake));
+    toggle_intake_status.whileTrue(new SetIntake(i_Intake, true)).onFalse(new SetIntake(i_Intake, false));
+
+    fire_solenoid.onTrue(new SetSolenoid(i_Intake, true));
+    retract_solenoid.onTrue(new SetSolenoid(i_Intake, false));
+  }
+
   @Override
   public void robotInit() {
     ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    configureButtonBindings();
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
@@ -52,16 +67,12 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-
-  /*
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -71,9 +82,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
   }
-  */
 
-  /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
 
@@ -88,15 +97,16 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during operator control. */
-  Wrist w = new Wrist();
-  Shoulder s = new Shoulder();
-  XboxController x = new XboxController(1);
-
   @Override
   public void teleopPeriodic() {
-    //w.manual(x.getLeftY() * .25);
-    //s.manual(x.getRightY() * .25);
+
+    if(Constants.Globals.wrist_manual){
+      w_Wrist.manual(operator.getLeftY() * .25);
+    }
+    if(Constants.Globals.shoulder_manual){
+      s_Shoulder.manual(operator.getRightY() * .25);
+    }
+
   }
 
   @Override
@@ -105,7 +115,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
   }
 
-  /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
 }
