@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,8 +30,17 @@ public class Robot extends TimedRobot {
   public Intake i_Intake = new Intake();
 
   private XboxController operator = new XboxController(1);
-  //public XboxController driver = new XboxController(1);
-    
+  //public PS4Controller operator = new PS4Controller(1);
+
+  /*
+  public JoystickButton toggle_wrist_manual = new JoystickButton(operator, PS4Controller.Button.kTriangle.value); 
+  public JoystickButton toggle_shoulder_manual = new JoystickButton(operator, PS4Controller.Button.kCircle.value);
+  public JoystickButton toggle_intake_status = new JoystickButton(operator, PS4Controller.Button.kCross.value); 
+  public JoystickButton toggle_intake_direction = new JoystickButton(operator, PS4Controller.Button.kSquare.value);
+  public JoystickButton fire_solenoid = new JoystickButton(operator, PS4Controller.Button.kL1.value);
+  public JoystickButton retract_solenoid = new JoystickButton(operator, PS4Controller.Button.kR1.value);
+  */
+
   public JoystickButton toggle_wrist_manual = new JoystickButton(operator, XboxController.Button.kY.value); 
   public JoystickButton toggle_shoulder_manual = new JoystickButton(operator, XboxController.Button.kB.value);
   public JoystickButton toggle_intake_status = new JoystickButton(operator, XboxController.Button.kA.value); 
@@ -43,7 +53,7 @@ public class Robot extends TimedRobot {
     toggle_shoulder_manual.onTrue(new ToggleManual(s_Shoulder, 1));
 
     toggle_intake_direction.onTrue(new ToggleIntake(i_Intake));
-    toggle_intake_status.whileTrue(new SetIntake(i_Intake, true)).onFalse(new SetIntake(i_Intake, false));
+    toggle_intake_status.onTrue(new SetIntake(i_Intake, true)).onFalse(new SetIntake(i_Intake, false));
 
     fire_solenoid.onTrue(new SetSolenoid(i_Intake, true));
     retract_solenoid.onTrue(new SetSolenoid(i_Intake, false));

@@ -31,7 +31,7 @@ public class Wrist extends SubsystemBase{
 
         wristMotor_2.set(ControlMode.Follower, wristMotor_1.getDeviceID());
 
-        wristMotor_1.setInverted(true);
+        wristMotor_1.setInverted(false);
         wristMotor_2.setInverted(InvertType.FollowMaster);
         caNifier = new CANifier(0);
     }

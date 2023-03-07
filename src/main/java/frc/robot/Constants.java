@@ -157,7 +157,7 @@ public final class Constants {
         public static boolean shoulder_manual = false;
         public static boolean intake_manual = false;
 
-        public static double intakePercentOutput = .8;
+        public static double intakePercentOutput = .5;
 
         public static int compressorID = 1;
         public static int solenoidChannel = 0;
