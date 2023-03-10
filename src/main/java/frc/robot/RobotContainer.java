@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.pathplanner.lib.server.PathPlannerServer;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -40,14 +42,13 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> driver.getRawAxis(translationAxis), 
-                () -> driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -driver.getRawAxis(translationAxis) * .75, 
+                () -> -driver.getRawAxis(strafeAxis) * .75 , 
+                () -> -driver.getRawAxis(rotationAxis) * .50, 
                 () -> robotCentric.getAsBoolean()
             )
         );
-        
-        
+
     }
 
     public Command getAutonomousCommand() {

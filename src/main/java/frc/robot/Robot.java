@@ -4,16 +4,23 @@
 
 package frc.robot;
 
+import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
+
+import com.pathplanner.lib.server.PathPlannerServer;
+
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.PositionArm;
 import frc.robot.commands.SetIntake;
 import frc.robot.commands.SetSolenoid;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.ToggleManual;
+import frc.robot.commands.Zero;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Wrist;
@@ -29,10 +36,9 @@ public class Robot extends TimedRobot {
   public Shoulder s_Shoulder = new Shoulder();
   public Intake i_Intake = new Intake();
 
-  private XboxController operator = new XboxController(1);
-  //public PS4Controller operator = new PS4Controller(1);
-
+  //PS4 Setup
   /*
+  public PS4Controller operator = new PS4Controller(1);
   public JoystickButton toggle_wrist_manual = new JoystickButton(operator, PS4Controller.Button.kTriangle.value); 
   public JoystickButton toggle_shoulder_manual = new JoystickButton(operator, PS4Controller.Button.kCircle.value);
   public JoystickButton toggle_intake_status = new JoystickButton(operator, PS4Controller.Button.kCross.value); 
@@ -40,13 +46,21 @@ public class Robot extends TimedRobot {
   public JoystickButton fire_solenoid = new JoystickButton(operator, PS4Controller.Button.kL1.value);
   public JoystickButton retract_solenoid = new JoystickButton(operator, PS4Controller.Button.kR1.value);
   */
-
+  
+  //XBOX Setup
+  private XboxController operator = new XboxController(1);
   public JoystickButton toggle_wrist_manual = new JoystickButton(operator, XboxController.Button.kY.value); 
   public JoystickButton toggle_shoulder_manual = new JoystickButton(operator, XboxController.Button.kB.value);
   public JoystickButton toggle_intake_status = new JoystickButton(operator, XboxController.Button.kA.value); 
   public JoystickButton toggle_intake_direction = new JoystickButton(operator, XboxController.Button.kX.value);
   public JoystickButton fire_solenoid = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
   public JoystickButton retract_solenoid = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  public JoystickButton zero = new JoystickButton(operator, XboxController.Button.kStart.value);
+
+  public POVButton setStowed = new POVButton(operator, 0);
+  public POVButton setLow = new POVButton(operator, 90);
+  public POVButton setMiddle = new POVButton(operator, 180);
+  public POVButton setHigh = new POVButton(operator, 270);
 
   private void configureButtonBindings() {
     toggle_wrist_manual.onTrue(new ToggleManual(s_Shoulder, 0));
@@ -57,6 +71,13 @@ public class Robot extends TimedRobot {
 
     fire_solenoid.onTrue(new SetSolenoid(i_Intake, true));
     retract_solenoid.onTrue(new SetSolenoid(i_Intake, false));
+
+    setStowed.onTrue(new PositionArm(s_Shoulder, w_Wrist, 0));
+    setLow.onTrue(new PositionArm(s_Shoulder, w_Wrist, 1));
+    setMiddle.onTrue(new PositionArm(s_Shoulder, w_Wrist, 2));
+    setHigh.onTrue(new PositionArm(s_Shoulder, w_Wrist, 3));
+
+    zero.onTrue(new Zero(s_Shoulder, w_Wrist));
   }
 
   @Override
@@ -66,6 +87,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     configureButtonBindings();
+    PathPlannerServer p = new PathPlannerServer();
+    p.startServer(5811);
   }
 
   @Override

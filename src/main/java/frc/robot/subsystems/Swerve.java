@@ -119,6 +119,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
+        /*
         swerveOdometry.update(getYaw(), getModulePositions());  
 
         for(SwerveModule mod : mSwerveMods){
@@ -127,5 +128,6 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Distance", mod.getPosition().distanceMeters);
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
+        */
     }
 }
