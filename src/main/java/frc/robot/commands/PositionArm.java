@@ -24,20 +24,30 @@ public class PositionArm extends CommandBase{
             s_Shoulder.position(0);
             s_Wrist.position(0);
         }
-        //low
+        //first cone
         else if(height == 1){
-            s_Shoulder.position(-60000);
-            s_Wrist.position(30000);
+            s_Shoulder.position(-52752);
         }
-        //middle
+        //first cube
         else if(height == 2){
-            s_Shoulder.position(-100000);
-            s_Wrist.position(32000);
+            s_Shoulder.position(-28806);
         }
-        //high
+        //second cube
         else if(height == 3){
-            s_Shoulder.position(-130000);
-            s_Wrist.position(33000);
+            s_Shoulder.position(-68425);
         }
+        //player
+        else if(height == 4){
+            s_Shoulder.position(-105000);
+        }
+        //ground
+        else if(height == 5){
+            s_Shoulder.position(-22332);
+        }
+    }
+
+    @Override
+    public boolean isFinished(){
+        return true;
     }
 }

@@ -7,16 +7,25 @@ import frc.robot.subsystems.Intake;
 public class SetIntake extends CommandBase{
     private final Intake intakeSubsystem;
     public boolean status;
+    public boolean direction;
 
-    public SetIntake(Intake subsystem, boolean status){
+    public SetIntake(Intake subsystem, boolean status, boolean direction){
         intakeSubsystem = subsystem;
         addRequirements(intakeSubsystem);
         this.status = status;
+        this.direction = direction;
     }
 
     @Override
     public void initialize(){
-        intakeSubsystem.setIntake(status ? Constants.Globals.intakePercentOutput : 0);
+        //intake
+        if(direction){
+            intakeSubsystem.setIntake(status ? Constants.Globals.intakePercentOutput : 0);
+        }
+        //outtake
+        else{
+            intakeSubsystem.setIntake(status ? -Constants.Globals.intakePercentOutput : 0);
+        }
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.math.Conversions;
 import frc.robot.Constants;
 
 public class Shoulder extends SubsystemBase{
@@ -33,17 +32,21 @@ public class Shoulder extends SubsystemBase{
 
         shoulderMotor_1.config_kP(0, 0.014);
         shoulderMotor_1.config_kD(0, 0.69);
-
+        shoulderMotor_1.configPeakOutputReverse(-.5);
+// shoulderMotor_1.config_kP(0, 0.059);
+        // shoulderMotor_1.config_kI(0, 3e-06);
+        // shoulderMotor_1.config_kD(0, 0.69);
         caNifier = new CANifier(0);
 
         double[] _dutyCycleAndPeriod = new double[]{0, 0};
 		caNifier.getPWMInput(CANifier.PWMChannel.PWMChannel1, _dutyCycleAndPeriod);
         if (_dutyCycleAndPeriod[0] < 200)
             _dutyCycleAndPeriod[0] += 1035;
-        shoulderMotor_1.setSelectedSensorPosition(Conversions.Map(_dutyCycleAndPeriod[0], 309, 94, 0, 17435));
+        // shoulderMotor_1.setSelectedSensorPosition(Conversions.Map(_dutyCycleAndPeriod[0], 309, 94, 0, 17435));
     }
 
     public void manual(double percentOutput){
+        shoulderMotor_1.setIntegralAccumulator(0);
         shoulderMotor_1.set(ControlMode.PercentOutput, percentOutput);
     }
 

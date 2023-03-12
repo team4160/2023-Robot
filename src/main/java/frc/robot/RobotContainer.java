@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.server.PathPlannerServer;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -28,16 +26,23 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    //private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     //private final JoystickButton robotCentric = new JoystickButton(driver, PS4Controller.Button.kR2.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-
+    public JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Intake i_Intake;
+    private final Shoulder s_Shoulder;
+    private final Wrist w_Wrist;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
+    public RobotContainer(Intake i_Intake, Shoulder s_Shoulder, Wrist w_Wrist) {
+        this.i_Intake = i_Intake;
+        this.s_Shoulder = s_Shoulder;
+        this.w_Wrist = w_Wrist;
+
+        zeroGyro.onTrue(new ZeroGyro(s_Swerve));
         
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
@@ -53,6 +58,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return new exampleAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
     }
 }
