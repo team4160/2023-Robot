@@ -20,7 +20,6 @@ import frc.robot.commands.ToggleManual;
 import frc.robot.commands.Zero;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shoulder;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 
 public class Robot extends TimedRobot {
@@ -91,8 +90,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer(i_Intake, s_Shoulder, w_Wrist);
     configureButtonBindings();
-    PathPlannerServer p = new PathPlannerServer();
-    p.startServer(5811);
+    PathPlannerServer.startServer(5811);
   }
 
   @Override

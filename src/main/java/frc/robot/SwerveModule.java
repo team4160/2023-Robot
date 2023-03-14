@@ -12,6 +12,8 @@ import frc.lib.util.SwerveModuleConstants;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -44,6 +46,8 @@ public class SwerveModule {
         configAngleEncoder();
 
         lastAngle = getState().angle;
+        mDriveMotor.set(TalonFXControlMode.PercentOutput, 0);
+        mAngleMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){

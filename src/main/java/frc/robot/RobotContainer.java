@@ -1,14 +1,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.autos.exampleAuto;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.ZeroGyro;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Wrist;
 
 public class RobotContainer {
     /* Controllers */
