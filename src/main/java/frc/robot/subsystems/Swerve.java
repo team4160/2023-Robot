@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,8 +24,10 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro = new AHRS(Port.kUSB);
+    private final Field2d m_field = new Field2d();
 
     public Swerve() {
+        SmartDashboard.putData("Field", m_field);
         if(gyro != null) {
             gyro.calibrate();
             gyro.resetDisplacement();
@@ -124,7 +127,8 @@ public class Swerve extends SubsystemBase {
         SmartDashboard.putNumber("Gyro", getYaw().getDegrees());
         SmartDashboard.putNumber("Gyro Raw", gyro.getAngle());
         
-        swerveOdometry.update(getYaw(), getModulePositions());  
+        swerveOdometry.update(getYaw(), getModulePositions());
+        m_field.setRobotPose(swerveOdometry.getPoseMeters());
         /*
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
