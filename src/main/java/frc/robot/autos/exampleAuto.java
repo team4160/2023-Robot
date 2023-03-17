@@ -30,6 +30,7 @@ public class exampleAuto extends SequentialCommandGroup {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("Ventura", new PathConstraints(4, 3));
 
         System.out.println(examplePath);
+        s_Swerve.getField().getObject("traj").setTrajectory(examplePath);
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
