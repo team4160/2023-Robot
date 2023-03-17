@@ -11,7 +11,7 @@ import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
-    public static final double stickDeadband = 0.1;
+    public static final double stickDeadband = 0.15;
 
     public static final class Swerve {
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
@@ -73,9 +73,9 @@ public final class Constants {
 
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.19638 / 12); //TODO: This must be tuned to specific robot
-        public static final double driveKV = (0.75499 / 12);
-        public static final double driveKA = (0.082316 / 12);
+        public static final double driveKS = (0.18774 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKV = (0.77636 / 12);
+        public static final double driveKA = (0.081142 / 12);
 
         /* Swerve Profiling Values */
         /** Meters per Second */
@@ -92,7 +92,7 @@ public final class Constants {
         public static final class Mod0 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 1;
             public static final int angleMotorID = 11;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(35.420);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(34.629);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
@@ -101,7 +101,7 @@ public final class Constants {
         public static final class Mod1 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 12;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(167.256);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(166.904);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
@@ -110,7 +110,7 @@ public final class Constants {
         public static final class Mod2 { //TODO: This must be tuned to specific robot
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 13;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(104.800);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(105.292);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
@@ -139,5 +139,44 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    }
+
+    public static final class MotorConstants{
+        public static final int shoulderMotor_1_id = 21;
+        public static final int shoulderMotor_2_id = 22;
+
+        public static final int wristMotor_1_id = 31;
+        public static final int wristMotor_2_id = 32;
+
+        public static final int intakeMotor_1_id = 41;
+        public static final int intakeMotor_2_id = 42;
+    }
+
+    public static final class Globals{
+        public static boolean wrist_manual = false;
+        public static boolean shoulder_manual = false;
+        public static boolean intake_manual = false;
+
+        public static double intakePercentOutput = .5;
+
+        public static int compressorID = 1;
+        public static int solenoidChannel = 0;
+
+        public static int compressor_max = 120;
+        public static int compressor_min = 90;
+    }
+
+    public static final class HelicopterConstants{
+        public static final int triggerPort = 1;
+        public static final int B2 = 2;
+        public static final int B3 = 3;
+        public static final int B4 = 4;
+        public static final int B5 = 5;
+        public static final int B6 = 6;
+        public static final int B7 = 7;
+        public static final int B8 = 8;
+        public static final int B9 = 9;
+        public static final int B10 = 10;
+        public static final int B11 = 11;
     }
 }

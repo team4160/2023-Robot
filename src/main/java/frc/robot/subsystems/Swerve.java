@@ -29,6 +29,7 @@ public class Swerve extends SubsystemBase {
             gyro.calibrate();
             gyro.resetDisplacement();
             zeroGyro();
+            gyro.setAngleAdjustment(180);
         }
         else
             System.out.println("Gyro is null");
@@ -105,10 +106,11 @@ public class Swerve extends SubsystemBase {
 
     public void zeroGyro(){
         gyro.reset();
+        gyro.setAngleAdjustment(0);
     }
 
     public Rotation2d getYaw() {
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getAngle()) : Rotation2d.fromDegrees(gyro.getAngle());
     }
 
     public void resetModulesToAbsolute(){
@@ -119,13 +121,17 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
+        SmartDashboard.putNumber("Gyro", getYaw().getDegrees());
+        SmartDashboard.putNumber("Gyro Raw", gyro.getAngle());
+        
         swerveOdometry.update(getYaw(), getModulePositions());  
-
+        /*
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Distance", mod.getPosition().distanceMeters);
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
+        */
     }
 }
