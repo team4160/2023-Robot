@@ -48,10 +48,10 @@ public class RobotContainer {
         
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
-                s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis) * .75, 
-                () -> -driver.getRawAxis(strafeAxis) * .75 , 
-                () -> -driver.getRawAxis(rotationAxis) * .50, 
+                s_Swerve,
+                () -> driver.getRawAxis(translationAxis) * .75,
+                () -> driver.getRawAxis(strafeAxis) * .75 ,
+                () -> -driver.getRawAxis(rotationAxis) * .50,
                 () -> robotCentric.getAsBoolean()
             )
         );
