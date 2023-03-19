@@ -68,6 +68,11 @@ public class SwerveModule {
         }
     }
 
+    public void forceSetAngle(Rotation2d angle){
+        SwerveModuleState state = new SwerveModuleState(0, angle);
+        setAngle(state);
+    }
+
     private void setAngle(SwerveModuleState desiredState){
         Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 1%. Prevents Jittering.
         SmartDashboard.putNumber("set //"+moduleNumber, angle.getDegrees());

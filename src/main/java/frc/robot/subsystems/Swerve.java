@@ -72,7 +72,14 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
-    }    
+    }
+
+    public void setStop(){
+        mSwerveMods[0].forceSetAngle(Rotation2d.fromDegrees(45));
+        mSwerveMods[1].forceSetAngle(Rotation2d.fromDegrees(-45));
+        mSwerveMods[2].forceSetAngle(Rotation2d.fromDegrees(-45));
+        mSwerveMods[3].forceSetAngle(Rotation2d.fromDegrees(45));
+    }   
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -133,13 +140,13 @@ public class Swerve extends SubsystemBase {
         
         swerveOdometry.update(getYaw(), getModulePositions());
         m_field.setRobotPose(getPose());
-        /*
+        
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Distance", mod.getPosition().distanceMeters);
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
-        */
+        
     }
 }

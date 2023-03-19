@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.exampleAuto;
+import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.ZeroGyro;
 import frc.robot.subsystems.Intake;
@@ -31,6 +32,7 @@ public class RobotContainer {
     //private final JoystickButton robotCentric = new JoystickButton(driver, PS4Controller.Button.kR2.value);
     public JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kStart.value);
+    private final JoystickButton balanceButton = new JoystickButton(driver, XboxController.Button.kLeftStick.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -45,12 +47,13 @@ public class RobotContainer {
         this.w_Wrist = w_Wrist;
 
         zeroGyro.onTrue(new ZeroGyro(s_Swerve));
+        balanceButton.onTrue(new BalanceCommand(s_Swerve));
         
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve,
-                () -> driver.getRawAxis(translationAxis) * .75,
-                () -> driver.getRawAxis(strafeAxis) * .75 ,
+                () -> -driver.getRawAxis(translationAxis) * .75,
+                () -> -driver.getRawAxis(strafeAxis) * .75 ,
                 () -> -driver.getRawAxis(rotationAxis) * .50,
                 () -> robotCentric.getAsBoolean()
             )
@@ -60,6 +63,10 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
+        return new exampleAuto(s_Swerve);
+    }
+
+    public Joystick getDriver(){
+        return driver;
     }
 }
