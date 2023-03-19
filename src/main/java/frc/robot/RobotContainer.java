@@ -1,9 +1,12 @@
 package frc.robot;
 
+import com.ctre.phoenix.Util;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.lib.math.Conversions;
 import frc.robot.autos.exampleAuto;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
@@ -48,13 +51,15 @@ public class RobotContainer {
 
         zeroGyro.onTrue(new ZeroGyro(s_Swerve));
         balanceButton.onTrue(new BalanceCommand(s_Swerve));
+
+        double sensitivity = 0.6;
         
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve,
-                () -> -driver.getRawAxis(translationAxis) * .75,
-                () -> -driver.getRawAxis(strafeAxis) * .75 ,
-                () -> -driver.getRawAxis(rotationAxis) * .50,
+                () -> Conversions.joystickSensitivity(sensitivity, -driver.getRawAxis(translationAxis)),
+                () -> Conversions.joystickSensitivity(sensitivity, -driver.getRawAxis(strafeAxis)),
+                () -> Conversions.joystickSensitivity(sensitivity, -driver.getRawAxis(rotationAxis)),
                 () -> robotCentric.getAsBoolean()
             )
         );
