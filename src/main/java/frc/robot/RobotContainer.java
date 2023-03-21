@@ -1,13 +1,11 @@
 package frc.robot;
 
-import com.ctre.phoenix.Util;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.math.Conversions;
-import frc.robot.autos.exampleAuto;
+import frc.robot.autos.pathplanner;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.ZeroGyro;
@@ -68,7 +66,9 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        // return new exampleAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
+        //https://docs.wpilib.org/en/stable/docs/software/dashboards/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
+        return new pathplanner(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
     }
 
     public Joystick getDriver(){
