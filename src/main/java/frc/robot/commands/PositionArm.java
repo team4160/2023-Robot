@@ -26,7 +26,7 @@ public class PositionArm extends CommandBase{
         }
         //first cone
         else if(height == 1){
-            s_Shoulder.position(-52752);
+            s_Shoulder.position(-57000);
         }
         //first cube
         else if(height == 2){
@@ -34,7 +34,7 @@ public class PositionArm extends CommandBase{
         }
         //second cube
         else if(height == 3){
-            s_Shoulder.position(-68425);
+            s_Shoulder.position(-70000);
         }
         //player
         else if(height == 4){

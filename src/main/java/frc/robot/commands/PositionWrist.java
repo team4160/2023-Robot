@@ -21,11 +21,11 @@ public class PositionWrist extends CommandBase{
         }
         //first cone
         else if(height == 1){
-            s_Wrist.position(4976);
+            s_Wrist.position(8000);
         }
         //first cube
         else if(height == 2){
-            s_Wrist.position(12416);
+            s_Wrist.position(14000);
         }
         //second cube
         else if(height == 3){

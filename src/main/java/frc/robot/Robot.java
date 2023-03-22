@@ -8,6 +8,8 @@ import com.pathplanner.lib.server.PathPlannerServer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,6 +26,11 @@ import frc.robot.subsystems.Wrist;
 
 public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
+
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private static final String kBalance = "Balance";
+  private static final String kBackup = "Backup";
+  private String m_autoSelected;
 
   private Command m_autonomousCommand;
 
@@ -91,6 +98,10 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer(i_Intake, s_Shoulder, w_Wrist);
     configureButtonBindings();
     PathPlannerServer.startServer(5811);
+
+    m_chooser.setDefaultOption("Score Cube + Balance Auto", kBalance);
+    m_chooser.addOption("Score Cube + Backup Auto", kBackup);
+    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   @Override
@@ -110,16 +121,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto selected: " + m_autoSelected);
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    switch (m_autoSelected) {
+      case kBackup:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kBackup);
+        m_autonomousCommand.schedule();
+        break;
+
+      case kBalance:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kBalance);
+        m_autonomousCommand.schedule();
+        break;
+        
     }
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
