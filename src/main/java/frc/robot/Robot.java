@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private static final String kBalance = "Balance";
   private static final String kBackup = "Backup";
+  private static final String kDouble = "Double";
   private String m_autoSelected;
 
   private Command m_autonomousCommand;
@@ -101,6 +102,7 @@ public class Robot extends TimedRobot {
 
     m_chooser.setDefaultOption("Score Cube + Balance Auto", kBalance);
     m_chooser.addOption("Score Cube + Backup Auto", kBackup);
+    m_chooser.addOption("Score Cube + Go For Another", kDouble);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -110,6 +112,9 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    SmartDashboard.putBoolean("Wrist Manual", Constants.Globals.wrist_manual);
+    SmartDashboard.putBoolean("Shoulder Manual", Constants.Globals.shoulder_manual);
+    
     CommandScheduler.getInstance().run();
   }
 
@@ -134,7 +139,11 @@ public class Robot extends TimedRobot {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand(kBalance);
         m_autonomousCommand.schedule();
         break;
-        
+      
+      case kDouble:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kDouble);
+        m_autonomousCommand.schedule();
+        break;
     }
   }
 

@@ -18,16 +18,16 @@ public class BalanceScoreAuto extends SequentialCommandGroup {
         Command path = PathPlannerLoader.getAutoCommand(s_Swerve, "Center Balance");
 
         addCommands(
-            // new PositionArm(s_Shoulder, w_Wrist, 2),
-            // new WaitCommand(1),
-            // new PositionWrist(w_Wrist, 2),
-            // new WaitCommand(1),
-            // new SetIntake(i_Intake, true, false),
-            // new WaitCommand(0.5),
-            // new SetIntake(i_Intake, false, false),
-            // new WaitCommand(0.2),
-            // new PositionArm(s_Shoulder, w_Wrist, 0),
-            // new WaitCommand(5),
+            new PositionArm(s_Shoulder, w_Wrist, 3),
+            new WaitCommand(1),
+            new PositionWrist(w_Wrist, 3),
+            new WaitCommand(1),
+            new SetIntake(i_Intake, true, false),
+            new WaitCommand(0.5),
+            new SetIntake(i_Intake, false, false),
+            new WaitCommand(0.2),
+            new PositionArm(s_Shoulder, w_Wrist, 0),
+            new WaitCommand(1.5),
             path,
             new BalanceCommand(s_Swerve)
         );
