@@ -12,20 +12,8 @@ import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 
-public class ScoreBackupAuto extends SequentialCommandGroup {
-    Command path;
-    public ScoreBackupAuto(Swerve s_Swerve, Intake i_Intake, Shoulder s_Shoulder, Wrist w_Wrist, boolean direction, boolean far){
-        if(direction){
-            path = PathPlannerLoader.getAutoCommand(s_Swerve, "Backup");
-        }
-        else{
-            if(far){
-                path = PathPlannerLoader.getAutoCommand(s_Swerve, "Backup Away Far");
-            }
-            else{
-                path = PathPlannerLoader.getAutoCommand(s_Swerve, "Backup Away");
-            }
-        }
+public class ScoreAuto extends SequentialCommandGroup {
+    public ScoreAuto(Swerve s_Swerve, Intake i_Intake, Shoulder s_Shoulder, Wrist w_Wrist){
 
         addCommands(
             new PositionArm(s_Shoulder, w_Wrist, 3),
@@ -37,8 +25,7 @@ public class ScoreBackupAuto extends SequentialCommandGroup {
             new SetIntake(i_Intake, false, false),
             new WaitCommand(0.2),
             new PositionArm(s_Shoulder, w_Wrist, 0),
-            new WaitCommand(1.5),
-            path
+            new WaitCommand(1.5)
         );
     }
 }

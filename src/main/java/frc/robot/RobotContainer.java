@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.math.Conversions;
 import frc.robot.autos.BalanceScoreAuto;
 import frc.robot.autos.DoubleScorePickupAuto;
+import frc.robot.autos.ScoreAuto;
 import frc.robot.autos.ScoreBackupAuto;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.TeleopSwerve;
@@ -71,10 +72,19 @@ public class RobotContainer {
             return new BalanceScoreAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
         }
         else if(auto.equals("Backup")){
-            return new ScoreBackupAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
+            return new ScoreBackupAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist, true, false);
         }
         else if(auto.equals("Double")){
             return new DoubleScorePickupAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
+        }
+        else if(auto.equals("Backup Away")){
+            return new ScoreBackupAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist, false, false);
+        }
+        else if(auto.equals("Backup Away Far")){
+            return new ScoreBackupAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist, false, true);
+        }
+        else if(auto.equals("Score")){
+            return new ScoreAuto(s_Swerve, i_Intake, s_Shoulder, w_Wrist);
         }
         return null;
     }

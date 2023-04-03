@@ -30,7 +30,11 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private static final String kBalance = "Balance";
   private static final String kBackup = "Backup";
+  private static final String kBackupAway = "Backup Away";
+  private static final String kBackupAwayFar = "Backup Away Far";
   private static final String kDouble = "Double";
+  private static final String kScore = "Score";
+
   private String m_autoSelected;
 
   private Command m_autonomousCommand;
@@ -102,7 +106,10 @@ public class Robot extends TimedRobot {
 
     m_chooser.setDefaultOption("Score Cube + Balance Auto", kBalance);
     m_chooser.addOption("Score Cube + Backup Auto", kBackup);
-    m_chooser.addOption("Score Cube + Go For Another", kDouble);
+    m_chooser.addOption("Score Cube + Backup Away Auto", kBackupAway);
+    m_chooser.addOption("Score Cube + Backup Away Far Auto", kBackupAwayFar);
+    //m_chooser.addOption("Score Cube + Go For Another", kDouble);
+    m_chooser.addOption("Score Cube", kScore);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -114,7 +121,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     SmartDashboard.putBoolean("Wrist Manual", Constants.Globals.wrist_manual);
     SmartDashboard.putBoolean("Shoulder Manual", Constants.Globals.shoulder_manual);
-    
+
     CommandScheduler.getInstance().run();
   }
 
@@ -142,6 +149,21 @@ public class Robot extends TimedRobot {
       
       case kDouble:
         m_autonomousCommand = m_robotContainer.getAutonomousCommand(kDouble);
+        m_autonomousCommand.schedule();
+        break;
+
+      case kBackupAway:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kBackupAway);
+        m_autonomousCommand.schedule();
+        break;
+      
+      case kBackupAwayFar:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kBackupAwayFar);
+        m_autonomousCommand.schedule();
+        break;
+
+      case kScore:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand(kScore);
         m_autonomousCommand.schedule();
         break;
     }

@@ -24,7 +24,7 @@ public class SetIntake extends CommandBase{
         }
         //outtake
         else{
-            intakeSubsystem.setIntake(status ? -Constants.Globals.intakePercentOutput : 0);
+            intakeSubsystem.setIntake(status ? -Constants.Globals.outakePercentOutput : 0);
         }
     }
 
